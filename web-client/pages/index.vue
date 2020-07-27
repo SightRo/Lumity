@@ -1,5 +1,9 @@
 <template>
-  <section class="section">
+  <v-layout
+    column
+    justify-center
+    align-center
+  >
     <div>
       <div v-if="quizzes">
         <p v-for="quiz in quizzes" :key="quiz.id">
@@ -8,24 +12,19 @@
       </div>
 
       <div>
-        <b-field label="Quiz name">
-          <b-input v-model="quizName"/>
-        </b-field>
-        <b-button @click="saveQuiz">
+        <v-text-field label="Quiz name" v-model="quizName"/>
+        <v-btn @click="saveQuiz">
           save
-        </b-button>
+        </v-btn>
       </div>
     </div>
-  </section>
+  </v-layout>
 </template>
 
 <script>
   import {mapMutations, mapActions, mapState} from 'vuex'
-
   export default {
-
     name: 'HomePage',
-
     data: () => ({
       quizName: ''
     }),
