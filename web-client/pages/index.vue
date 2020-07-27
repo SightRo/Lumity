@@ -1,53 +1,46 @@
 <template>
   <section class="section">
-    <div class="columns is-mobile">
-      <card
-        title="Free"
-        icon="github"
-      >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
-      </card>
+    <div>
+      <div v-if="quizzes">
+        <p v-for="quiz in quizzes" :key="quiz.id">
+          {{quiz.id}} - {{quiz.name}}
+        </p>
+      </div>
 
-      <card
-        title="Responsive"
-        icon="cellphone-link"
-      >
-        <b class="has-text-grey">
-          Every
-        </b> component is responsive
-      </card>
-
-      <card
-        title="Modern"
-        icon="alert-decagram"
-      >
-        Built with <a href="https://vuejs.org/">
-          Vue.js
-        </a> and <a href="http://bulma.io/">
-          Bulma
-        </a>
-      </card>
-
-      <card
-        title="Lightweight"
-        icon="arrange-bring-to-front"
-      >
-        No other internal dependency
-      </card>
+      <div>
+        <b-field label="Quiz name">
+          <b-input v-model="quizName"/>
+        </b-field>
+        <b-button @click="saveQuiz">
+          save
+        </b-button>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import Card from '~/components/Card'
+  import {mapMutations, mapActions, mapState} from 'vuex'
 
-export default {
-  name: 'HomePage',
+  export default {
 
-  components: {
-    Card
+    name: 'HomePage',
+
+    data: () => ({
+      quizName: ''
+    }),
+    computed: {
+      ...mapState('quizzes', {
+        quizzes: state => state.quizzes
+      })
+    },
+    methods: {
+      ...mapMutations('quizzes', ['reset', 'setQuizzes']),
+      ...mapActions('quizzes', ['fetchQuizzes', 'createQuiz']),
+      async saveQuiz() {
+        await this.createQuiz({quiz: {name: this.quizName}});
+        this.quizName = ''
+      }
+    }
   }
-}
 </script>
