@@ -1,6 +1,8 @@
 using Lumity.Api.Data;
+using Lumity.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -11,7 +13,7 @@ namespace Lumity.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<QuizStore>();
+            services.AddDbContext<AppDbContext>(option => option.UseSqlite("Data Source=Database.sqlite;"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
