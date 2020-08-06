@@ -6,10 +6,7 @@ export const state = initState
 
 export const mutations = {
   setQuizzes(state, {quizzes}) {
-    console.log(quizzes)
     state.quizzes = quizzes
-    console.log(state.quizzes)
-
   },
   reset(state) {
     Object.assign(state, initState())

@@ -2,21 +2,13 @@
   <div class="container">
     <div>
       <div v-if="quizzes">
-        <p v-for="quiz in quizzes" :key="quiz.id">
-          {{quiz.id}} - {{quiz.name}}
-        </p>
+        <div v-for="quiz in quizzes" :key="quiz.id">
+          <quiz :quiz="quiz"/>
+        </div>
       </div>
 
       <div>
-        <b-card class="container">
-          <b-card-title class="text-center">Quiz name</b-card-title>
-          <b-card-body class="row">
-            <b-input type="text" v-model="quizName"/>
-            <b-button @click="saveQuiz" class="col text-center mt-2">
-              save
-            </b-button>
-          </b-card-body>
-        </b-card>
+        <input-quiz/>
       </div>
     </div>
   </div>
@@ -24,10 +16,17 @@
 
 <script>
   import {mapMutations, mapActions, mapState} from 'vuex'
+  import quiz from "../components/quiz"
+  import InputQuiz from "../components/input-quiz";
 
   export default {
 
     name: 'HomePage',
+
+    components: {
+      InputQuiz,
+      quiz
+    },
 
     data: () => ({
       quizName: ''
@@ -39,14 +38,8 @@
       })
     },
 
-    methods: {
-      ...mapMutations('quizzes', ['reset', 'setQuizzes']),
-      ...mapActions('quizzes', ['fetchQuizzes', 'createQuiz']),
-
-      async saveQuiz() {
-        await this.createQuiz({quiz: {name: this.quizName}});
-        this.quizName = ''
-      }
+    async fetch() {
+      await this.$store.dispatch('quizzes/fetchQuizzes')
     }
   }
 </script>
