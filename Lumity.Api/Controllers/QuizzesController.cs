@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Lumity.Api.Data;
 using Lumity.Api.Models;
@@ -22,11 +21,18 @@ namespace Lumity.Api.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<Quiz>> GetAll()
-            => await _context.Quizzes.ToListAsync();
+            => await _context.Quizzes.
+                Include(q => q.Questions).
+                ThenInclude(q => q.Options).
+                ToListAsync();
+        
 
         [HttpGet("{id}")]
         public async Task<Quiz> GetById(int id)
-            => await _context.Quizzes.FindAsync(id);
+            => await _context.Quizzes.
+                Include(q => q.Questions).
+                ThenInclude(q => q.Options).
+                SingleOrDefaultAsync(q => q.Id == id);
 
         [HttpPost]
         public async Task<Quiz> Create([FromBody] Quiz quiz)
