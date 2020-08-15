@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "quiz"
+        name: "index"
     }
 </script>
 

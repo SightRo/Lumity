@@ -1,3 +1,4 @@
+using System;
 using Lumity.Api.Data;
 using Lumity.Api.Models;
 using Microsoft.AspNetCore.Builder;
@@ -13,14 +14,20 @@ namespace Lumity.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<AppDbContext>(option => option.UseSqlite("Data Source=Database.sqlite;"));
+            services.AddDbContext<AppDbContext>(option =>
+                option.UseSqlite("Data Source=Database.sqlite;"));
+                //option.UseInMemoryDatabase("dev"));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+                // var context = services.GetService<AppDbContext>();
+                // context.Quizzes.AddRange(DataGenerator.GenerateQuizzes(2));
+                // context.SaveChanges();
             }
 
             app.UseCors(c => c.AllowAnyHeader()

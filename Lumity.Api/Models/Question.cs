@@ -7,6 +7,7 @@ namespace Lumity.Api.Models
         public int QuizId { get; set; }
         public int Order { get; set; }
         public string Text { get; set; }
+        public int RightOption { get; set; }
         public List<Option> Options { get; set; }
     }
 }

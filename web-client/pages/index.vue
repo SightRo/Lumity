@@ -16,7 +16,7 @@
 
 <script>
   import {mapMutations, mapActions, mapState} from 'vuex'
-  import quiz from "../components/quiz"
+  import quiz from "../components/quiz-preview"
   import InputQuiz from "../components/input-quiz";
 
   export default {
@@ -27,10 +27,6 @@
       InputQuiz,
       quiz
     },
-
-    data: () => ({
-      quizName: ''
-    }),
 
     computed: {
       ...mapState('quizzes', {

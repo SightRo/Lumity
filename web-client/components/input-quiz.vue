@@ -14,12 +14,13 @@
                       :label="'Question #'+ question.order" label-for="nested-question">
           <b-form-input id="nested-question" v-model="question.text"></b-form-input>
 
-          <b-form-group v-for="option in question.options" :key="option.order">
-            <label>{{'Option #'+ option.order}}</label>
-            <b-form-checkbox inline :checked="option.isRight"/>
-            <b-form-input v-model="option.text"></b-form-input>
-          </b-form-group>
-          <b-button @click="addOption(question)">Add option</b-button>
+          <b-form-radio-group v-model="question.rightOption">
+            <div v-for="option in question.options" :key="option.order">
+              <b-form-radio :value="option.order"></b-form-radio>
+              <label>{{'Option #'+ option.order}}</label>
+              <b-form-input v-model="option.text"></b-form-input>
+            </div>
+          </b-form-radio-group>
 
         </b-form-group>
         <b-button @click="addQuestion">Add question</b-button>
@@ -32,6 +33,7 @@
 <script>
   import {mapActions} from 'vuex'
 
+  //Todo Add reset on submit button
   export default {
     name: "input-quiz",
 
@@ -48,6 +50,7 @@
         const question = {
           order: this.questions.length + 1,
           text: '',
+          rightOption: null,
           options: []
         }
 
@@ -63,7 +66,6 @@
         const option = {
           order: question.options.length + 1,
           text: '',
-          isRight: false
         }
         question.options.push(option)
       }
